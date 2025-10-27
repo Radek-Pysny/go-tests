@@ -1,3 +1,5 @@
+//go:build separate && !unit && !integration
+
 package allfails
 
 import (

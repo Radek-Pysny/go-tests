@@ -5,8 +5,9 @@ Just some examples for unit testing in Go. All the test-related code can be foun
 ```
 /go-tests/
   ./tests/
-    ./separate/*      separate test suit with all tests failing (separate tag)
-    ./integration/*   separate test suit presenting basic usage of testcontainers
+    ./separate/*      separate test suit with all tests failing (separate tag + sub-module)
+    ./fuzzy/*         simple fuzz testing sample
+    ./integration/*   separate test suit presenting basic usage of testcontainers (sub-module)
     ./unit/*          basic unit tests (no separation)
 ```
 
@@ -14,6 +15,10 @@ Just some examples for unit testing in Go. All the test-related code can be foun
 # Usage
 
 For running unit tests use either `make unit-tests` or `make unit-tests-verbose`.
+
+To run integration tests using [testcontainers](https://testcontainers.com/) run `make integration-tests`
+or `make integration-tests-verbose`. The latter command is convenient especially when debugging issues with
+testcontainers and Docker image retrieval atc.
 
 For running of all failing tests run `make separate-tests`.
 

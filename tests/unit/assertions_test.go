@@ -227,3 +227,22 @@ func Test_testify_assertions(t *testing.T) {
 		assert.Regexp(t, regexp.MustCompile("^( [[:punct:]][A-Z]l{2,2}o)+.$"), " 'Allo 'Allo!")
 	})
 }
+
+type DAO interface {
+	Fetch(id string) (any, error)
+	Store(id string, value any) error
+}
+
+type DaoMock struct {
+	DAO
+	ReturnValue any
+	ReturnError error
+}
+
+func (d *DaoMock) Fetch(_ string) (any, error) {
+	return d.ReturnValue, d.ReturnError
+}
+
+func NewFetchDaoMock(x any, err error) DaoMock {
+	return DaoMock{nil, x, err}
+}

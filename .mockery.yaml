@@ -1,0 +1,9 @@
+include-interface-regex: "[A-Z].*"
+dir: "tests/mocks/{{.SrcPackagePath}}mock"
+filename: "{{.InterfaceName | snakecase}}.go"
+structname: '{{.Mock}}{{.InterfaceName}}'
+pkgname: '{{.SrcPackageName}}mock'
+formatter: goimports
+force-file-write: true
+Packages:
+  github.com/Radek-Pysny/go-tests/put:

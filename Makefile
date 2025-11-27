@@ -34,3 +34,7 @@ clean-mocks:
 
 generate-mocks: clean-mocks
 	${TOOL_MOCKERY}
+
+sample-of-logs:
+	go test github.com/Radek-Pysny/go-tests/tests/unit -run ^TestVerbose$$/^flat.*$$ -v
+	go test github.com/Radek-Pysny/go-tests/tests/unit -run ^TestVerbose$$/^.*loop.*$$ -v

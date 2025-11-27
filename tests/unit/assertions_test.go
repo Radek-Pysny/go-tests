@@ -14,9 +14,17 @@ import (
 // One has to write all test conditions using basic branching control structures (aka if or switch) and
 // mark the test as failed explicitly.
 func Test_std_assertions(t *testing.T) {
-	if 1 == 2 {
-		t.Error("1 == 2 ?!")
+	return // it would fail on t.Fail, t.Error, and t.FailNow...
+
+	t.Fail()
+	if t.Failed() {
+		t.Error("it already fails anyway")
 	}
+	if 42 != 101 {
+		t.Errorf("because of %d != %d", 42, 101)
+	}
+	t.FailNow()
+	t.Log("This message will never be printed!!!")
 }
 
 func Test_testify_assertions(t *testing.T) {

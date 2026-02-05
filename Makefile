@@ -21,6 +21,11 @@ separate-tests:
 fuzzy-tests:
 	cd tests/fuzzy && go test -fuzz ./... -count=1 -v
 
+.PHONY: benchmarks
+
+benchmarks:
+	go test -bench=. -benchtime=10s -benchmem ./benchmarks/...
+
 .PHONY: go-mod-tidy
 
 go-mod-tidy:
@@ -29,11 +34,15 @@ go-mod-tidy:
 	cd tests/separate && go mod tidy
 	cd tests/integration && go mod tidy
 
+.PHONY: clean-mocks generate-mocks
+
 clean-mocks:
 	rm -rf tests/mocking/mocks
 
 generate-mocks: clean-mocks
 	${TOOL_MOCKERY}
+
+.PHONY: sample-of-logs
 
 sample-of-logs:
 	go test github.com/Radek-Pysny/go-tests/tests/unit -run ^TestVerbose$$/^flat.*$$ -v

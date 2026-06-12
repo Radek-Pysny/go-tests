@@ -8,7 +8,32 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func Test_synctest_bubbleTimeInThePast(t *testing.T) {
+	currentTime := time.Now()
+
+	var bubbleTime time.Time
+	synctest.Test(t, func(t *testing.T) {
+		bubbleTime = time.Now()
+	})
+
+	require.False(t, bubbleTime.Equal(currentTime))
+	require.True(t, bubbleTime.Before(currentTime))
+}
+
+func Test_synctest_bubbleTimeInitialValue(t *testing.T) {
+	expectedTime := time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)
+
+	synctest.Test(t, func(t *testing.T) {
+		bubbleTime := time.Now().UTC()
+
+		require.True(t, bubbleTime.Equal(expectedTime))
+		require.Equal(t, expectedTime, bubbleTime)
+	})
+}
+
 func Test_synctest_sleepInSingleGoroutine(t *testing.T) {
+	// That test will finish immediately thanks to bubble introduced by synctest.Test, but the time captures are as
+	// expected.
 	t.Run("in-synctest", func(t *testing.T) {
 		const duration = 5 * time.Second
 		var (
@@ -41,6 +66,7 @@ func Test_synctest_sleepInSingleGoroutine(t *testing.T) {
 		t.Log("diff:", outOfBubbleDiff)
 	})
 
+	// It will take that 50 ms to finish that unit test.
 	t.Run("out-of-synctest", func(t *testing.T) {
 		const duration = 50 * time.Millisecond
 		var (
